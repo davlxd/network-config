@@ -1,0 +1,26 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto tap0
+iface tap0 inet manual
+up ifconfig $IFACE 0.0.0.0 up
+down ifconfig $IFACE down
+tunctl_user lxd 
+
+# The primary network interface
+auto br0
+iface br0 inet static
+	address 192.168.63.88
+	netmask 255.255.255.0
+	network 192.168.63.0
+	broadcast 192.168.63.255
+	gateway 192.168.63.1
+  bridge_ports  eth0 tap0
+  bridge_stp  off 
+  bridge_maxwait  0
+  bridge_fd 0
+
